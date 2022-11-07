@@ -1,0 +1,8 @@
+{
+  "name": "Pixo Editor",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "b53c7822"
+}
