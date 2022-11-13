@@ -1,17 +1,21 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Tab 1
+    <ion-title color="warning" title="large">
+      Files
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-button (click)="selectImage()" expand="full" *ngIf="!myImage">
+    Select Image
+  </ion-button>
+
+  <ion-row *ngIf="myImage"></ion-row>
+
+  <image-cropper #cropper [imageBase64]="myImage" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" format="png"
+    (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+
+  <img [src]="croppedImage" *ngIf="croppedImage" />
 </ion-content>
