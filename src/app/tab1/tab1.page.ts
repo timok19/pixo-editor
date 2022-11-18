@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Capacitor } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import * as anime from 'animejs';
 
 @Component({
   selector: 'app-tab1',
@@ -11,6 +12,8 @@ import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
 export class Tab1Page {
   croppedImage: any = '';
   myImage = null;
+
+  isMobile = Capacitor.getPlatform() !== 'web';
 
   constructor(private loadingCtrl: LoadingController) {}
 
@@ -22,16 +25,35 @@ export class Tab1Page {
       resultType: CameraResultType.Base64,
     });
 
+    // loading event
     const loading = await this.loadingCtrl.create();
     await loading.present();
 
     this.myImage = `data:image/jpeg;base64,${image.base64String}`;
+    this.croppedImage = null;
   }
+
+  // TODO: call this method to stop loading animation
   imageLoaded() {
     this.loadingCtrl.dismiss();
   }
 
+  // TODO: call this method to avoid user input mistake
   loadImageFailed() {
     console.log('Image load failed');
+  }
+
+  cropImage() {}
+
+  pulsationAnimation() {
+    anime({
+      targets: '.pulsating-circle',
+      translateX: [
+        { value: 100, duration: 1200 },
+        { value: 0, duration: 800 },
+      ],
+      rotate: '1turn',
+      duration: 2000,
+    });
   }
 }

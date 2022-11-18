@@ -6,7 +6,6 @@ import { Tab1Page } from './tab1.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
-import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   imports: [
@@ -15,7 +14,6 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     FormsModule,
     ExploreContainerComponentModule,
     Tab1PageRoutingModule,
-    ImageCropperModule,
   ],
   declarations: [Tab1Page],
 })

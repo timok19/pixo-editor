@@ -1,4 +1,23 @@
-image-cropper {
-  --cropper-outline-color: rgba(0, 0, 0, 0.5);
-  --cropper-overlay-color: var(--ion-background-color);
+ion-button[shape="circle"] {
+  --border-radius: 50%;
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+}
+
+.button-add {
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.pulsating-circle {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  width: 30px;
+  height: 30px;
 }

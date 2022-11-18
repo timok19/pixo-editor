@@ -6,16 +6,34 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
 
-  <ion-button (click)="selectImage()" expand="full" *ngIf="!myImage">
-    Select Image
-  </ion-button>
+<ion-content [fullscreen]="true">
+  <div class="ion-text-center">
+    <div class="button-add">
+
+      <ion-button fill="outline" shape="circle" color="warning" (click)="selectImage()" *ngIf="!myImage">
+        <ion-icon name="add-outline" slot="icon-only" size="large"></ion-icon>
+      </ion-button>
+
+      <div class="pulsating-circle"></div>
+
+    </div>
+  </div>
 
   <ion-row *ngIf="myImage"></ion-row>
 
-  <image-cropper #cropper [imageBase64]="myImage" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" format="png"
-    (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
 
+
+  <!-- <image-cropper #cropper [imageBase64]="myImage" [hideResizeSquares]="isMobile" [maintainAspectRatio]="true"
+    [aspectRatio]="4 / 3" format="png" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()">
+  </image-cropper> -->
   <img [src]="croppedImage" *ngIf="croppedImage" />
+
+
+  <ion-buttons>
+    <ion-button (click)="cropImage()" *ngIf="myImage">
+      <ion-icon slot="icon-only" name="checkmark">
+      </ion-icon>
+    </ion-button>
+  </ion-buttons>
 </ion-content>
