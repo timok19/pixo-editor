@@ -12,12 +12,3 @@ ion-button[shape="circle"] {
   left: 0;
   right: 0;
 }
-
-.pulsating-circle {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  width: 30px;
-  height: 30px;
-}

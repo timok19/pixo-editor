@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { LoadingController } from '@ionic/angular';
-import * as anime from 'animejs';
 
 @Component({
   selector: 'app-tab1',
@@ -11,6 +10,7 @@ import * as anime from 'animejs';
 })
 export class Tab1Page {
   croppedImage: any = '';
+
   myImage = null;
 
   isMobile = Capacitor.getPlatform() !== 'web';
@@ -44,16 +44,4 @@ export class Tab1Page {
   }
 
   cropImage() {}
-
-  pulsationAnimation() {
-    anime({
-      targets: '.pulsating-circle',
-      translateX: [
-        { value: 100, duration: 1200 },
-        { value: 0, duration: 800 },
-      ],
-      rotate: '1turn',
-      duration: 2000,
-    });
-  }
 }

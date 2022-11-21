@@ -1,22 +1,22 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title color="warning" title="large">
-      Files
-    </ion-title>
+    <ion-col>
+      <ion-title color="warning" title="large" class="ion-text-left">
+        Images
+      </ion-title>
+    </ion-col>
   </ion-toolbar>
 </ion-header>
 
 
 <ion-content [fullscreen]="true">
+
   <div class="ion-text-center">
     <div class="button-add">
-
       <ion-button fill="outline" shape="circle" color="warning" (click)="selectImage()" *ngIf="!myImage">
-        <ion-icon name="add-outline" slot="icon-only" size="large"></ion-icon>
+        <ion-icon name="add-outline" slot="icon-only" size="large">
+        </ion-icon>
       </ion-button>
-
-      <div class="pulsating-circle"></div>
-
     </div>
   </div>
 
