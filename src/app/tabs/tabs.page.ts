@@ -1,31 +1,40 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
 })
-export class TabsPage {
-  filledImagesIcon = true;
-  filledFilterIcon = true;
-  filledSettingsIcon = true;
+export class TabsPage implements OnInit {
+  imagesIcon = 'images-outline';
+  filterIcon = 'options-outline';
+  settingsIcon = 'settings-outline';
 
-  isImagesClicked = true;
-  isEditClicked = true;
-  isSettingsClicked = true;
+  constructor(private router: Router) {}
 
-  constructor() {}
+  setIcon() {
+    if (this.router.url === '/tabs/tab1') {
+      this.imagesIcon = 'images';
+      this.filterIcon = 'options-outline';
+      this.settingsIcon = 'settings-outline';
+    } else if (this.router.url === '/tabs/tab2') {
+      this.imagesIcon = 'images-outline';
+      this.filterIcon = 'options';
+      this.settingsIcon = 'settings-outline';
+    } else if (this.router.url === '/tabs/tab3') {
+      this.imagesIcon = 'images-outline';
+      this.filterIcon = 'options-outline';
+      this.settingsIcon = 'settings';
+    }
 
-  imagesIconSet(): boolean {
-    this.filledImagesIcon = !this.filledImagesIcon;
-    return this.filledImagesIcon;
+    return this.imagesIcon, this.filterIcon, this.settingsIcon;
   }
-  filterIconSet(): boolean {
-    this.filledFilterIcon = !this.filledFilterIcon;
-    return this.filledFilterIcon;
-  }
-  settingsIconSet(): boolean {
-    this.filledSettingsIcon = !this.filledSettingsIcon;
-    return this.filledSettingsIcon;
+
+  // call function setIcon() when route changes
+  ngOnInit() {
+    this.router.events.subscribe(() => {
+      this.setIcon();
+    });
   }
 }
