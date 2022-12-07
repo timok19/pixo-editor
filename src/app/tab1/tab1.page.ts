@@ -1,7 +1,9 @@
 import { Component, ViewChild } from '@angular/core';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
+import { PopoverInfoComponent } from '../popovers/popover-info/popover-info.component';
 
 @Component({
   selector: 'app-tab1',
@@ -9,13 +11,20 @@ import { LoadingController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss'],
 })
 export class Tab1Page {
-  croppedImage: any = '';
-
   myImage = null;
+
+  imageDateCreated: string;
+  imageName: string;
+  imageSize: string;
+  imageType: string;
+  imageResolution: string;
 
   isMobile = Capacitor.getPlatform() !== 'web';
 
-  constructor(private loadingCtrl: LoadingController) {}
+  constructor(
+    private loadingController: LoadingController,
+    public popoverController: PopoverController
+  ) {}
 
   // select image from device
   async selectImage() {
@@ -26,16 +35,29 @@ export class Tab1Page {
     });
 
     // loading event
-    const loading = await this.loadingCtrl.create();
+    const loading = await this.loadingController.create();
     await loading.present();
 
-    this.myImage = `data:image/jpeg;base64,${image.base64String}`;
-    this.croppedImage = null;
+    this.myImage = `data:image/jpeg/png/jpg;base64,${image.base64String}`;
+
+    const img = new Image();
+    img.src = this.myImage;
+
+    img.onload = () => {
+      this.imageResolution = `${img.width} px ✕ ${img.height} px`;
+
+      const size = image.base64String.length * 0.75;
+      this.imageSize = `${(size / 1024).toFixed(2)} KB`;
+
+      this.imageType = image.format;
+
+      // get image name from file system (not from EXIF) because EXIF data is not always available on mobile devices
+      this.imageName = this.myImage.name;
+    };
   }
 
-  // TODO: call this method to stop loading animation
   imageLoaded() {
-    this.loadingCtrl.dismiss();
+    this.loadingController.dismiss();
   }
 
   // TODO: call this method to avoid user input mistake
@@ -43,5 +65,16 @@ export class Tab1Page {
     console.log('Image load failed');
   }
 
-  cropImage() {}
+  async additionalInfo(e: Event) {
+    const popover = await this.popoverController.create({
+      component: PopoverInfoComponent,
+      event: e,
+    });
+
+    await popover.present();
+    await popover.onDidDismiss();
+  }
+
+  // TODO: call this method accept user input
+  acceptImage() {}
 }

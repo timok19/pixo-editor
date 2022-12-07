@@ -7,9 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
-  imagesIcon = 'images-outline';
-  filterIcon = 'options-outline';
-  settingsIcon = 'settings-outline';
+  imagesIcon: string;
+  filterIcon: string;
+  settingsIcon: string;
 
   constructor(private router: Router) {}
 

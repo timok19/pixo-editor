@@ -5,6 +5,20 @@
         Images
       </ion-title>
     </ion-col>
+
+    <!--Accept image if selected-->
+    <ion-buttons slot="end">
+      <ion-button *ngIf="myImage" (click)="acceptImage()" shape="circle" color="warning">
+        <ion-icon name="checkmark" size="large" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!myImage" (click)="additionalInfo($event)" shape="circle" color="warning">
+        <ion-icon name="ellipsis-vertical" size="medium" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -20,20 +34,25 @@
     </div>
   </div>
 
-  <ion-row *ngIf="myImage"></ion-row>
+  <!--add method imageLoaded() to stop loading animation -->
+
+  <ion-card class="ion-padding ion-margin">
+    <ion-img *ngIf="myImage" [src]="myImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
+
+    <ion-card-header>
+
+
+      <ion-card-title>{{imageName}}</ion-card-title>
+      <ion-card-title>{{imageResolution}}</ion-card-title>
+      <ion-card-subtitle>{{imageSize}}</ion-card-subtitle>
+      <ion-text>{{imageType}}</ion-text>
+    </ion-card-header>
+
+    <ion-card-content>
+      Here's a small text description for the card content. Nothing more, nothing less.
+    </ion-card-content>
+  </ion-card>
 
 
 
-  <!-- <image-cropper #cropper [imageBase64]="myImage" [hideResizeSquares]="isMobile" [maintainAspectRatio]="true"
-    [aspectRatio]="4 / 3" format="png" (imageLoaded)="imageLoaded()" (loadImageFailed)="loadImageFailed()">
-  </image-cropper> -->
-  <img [src]="croppedImage" *ngIf="croppedImage" />
-
-
-  <ion-buttons>
-    <ion-button (click)="cropImage()" *ngIf="myImage">
-      <ion-icon slot="icon-only" name="checkmark">
-      </ion-icon>
-    </ion-button>
-  </ion-buttons>
 </ion-content>
