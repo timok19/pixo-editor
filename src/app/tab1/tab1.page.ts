@@ -4,6 +4,8 @@ import { Capacitor } from '@capacitor/core';
 import { LoadingController, ModalController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 import { PopoverInfoComponent } from '../popovers/popover-info/popover-info.component';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-tab1',
@@ -14,16 +16,16 @@ export class Tab1Page {
   myImage = null;
 
   imageDateCreated: string;
-  imageName: string;
   imageSize: string;
   imageType: string;
-  imageResolution: string;
-
+  imageHeight: string;
+  imageWidth: string;
   isMobile = Capacitor.getPlatform() !== 'web';
 
   constructor(
     private loadingController: LoadingController,
-    public popoverController: PopoverController
+    public popoverController: PopoverController,
+    private sanitizer: DomSanitizer
   ) {}
 
   // select image from device
@@ -38,21 +40,17 @@ export class Tab1Page {
     const loading = await this.loadingController.create();
     await loading.present();
 
-    this.myImage = `data:image/jpeg/png/jpg;base64,${image.base64String}`;
+    this.myImage = `data:image/jpeg;base64,${image.base64String}`;
 
     const img = new Image();
     img.src = this.myImage;
 
     img.onload = () => {
-      this.imageResolution = `${img.width} px ✕ ${img.height} px`;
-
+      this.imageWidth = `${img.width} px`;
+      this.imageHeight = `${img.height} px`;
       const size = image.base64String.length * 0.75;
       this.imageSize = `${(size / 1024).toFixed(2)} KB`;
-
       this.imageType = image.format;
-
-      // get image name from file system (not from EXIF) because EXIF data is not always available on mobile devices
-      this.imageName = this.myImage.name;
     };
   }
 

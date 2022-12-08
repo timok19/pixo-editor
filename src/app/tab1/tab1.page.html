@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-col>
       <ion-title color="warning" title="large" class="ion-text-left">
-        Images
+        Add Image
       </ion-title>
     </ion-col>
 
@@ -25,9 +25,19 @@
 
 <ion-content [fullscreen]="true">
 
+  <!--set text to the center of the -->
+
+  <div *ngIf="!myImage" class="ion-text-center"
+    style="position: relative; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0;">
+    <ion-text class="gray-text">
+      <h1>Upload your image</h1>
+    </ion-text>
+  </div>
+
+
   <div class="ion-text-center">
     <div class="button-add">
-      <ion-button fill="outline" shape="circle" color="warning" (click)="selectImage()" *ngIf="!myImage">
+      <ion-button fill="outline" shape="circle" color="warning" (click)="selectImage()">
         <ion-icon name="add-outline" slot="icon-only" size="large">
         </ion-icon>
       </ion-button>
@@ -35,24 +45,21 @@
   </div>
 
   <!--add method imageLoaded() to stop loading animation -->
+  <div style="height: 100%; display: inline-flex; align-items: center; justify-content: center;">
+    <ion-card *ngIf="myImage">
+      <ion-img [src]="myImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
 
-  <ion-card class="ion-padding ion-margin">
-    <ion-img *ngIf="myImage" [src]="myImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
+      <ion-card-header>
 
-    <ion-card-header>
+        <ion-card-title *ngIf="myImage" color="warning">Image properties: </ion-card-title>
+        <ion-card-subtitle>
+          Resolution: {{imageWidth}} * {{imageHeight}}
+        </ion-card-subtitle>
+        <ion-card-subtitle>Image size: {{imageSize}}</ion-card-subtitle>
+        <ion-card-subtitle>Image type: {{imageType}}</ion-card-subtitle>
 
-
-      <ion-card-title>{{imageName}}</ion-card-title>
-      <ion-card-title>{{imageResolution}}</ion-card-title>
-      <ion-card-subtitle>{{imageSize}}</ion-card-subtitle>
-      <ion-text>{{imageType}}</ion-text>
-    </ion-card-header>
-
-    <ion-card-content>
-      Here's a small text description for the card content. Nothing more, nothing less.
-    </ion-card-content>
-  </ion-card>
-
-
+      </ion-card-header>
+    </ion-card>
+  </div>
 
 </ion-content>
