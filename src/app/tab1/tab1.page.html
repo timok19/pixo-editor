@@ -47,7 +47,9 @@
   <!--add method imageLoaded() to stop loading animation -->
   <div style="height: 100%; display: inline-flex; align-items: center; justify-content: center;">
     <ion-card *ngIf="myImage">
+
       <ion-img [src]="myImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
+
 
       <ion-card-header>
 
