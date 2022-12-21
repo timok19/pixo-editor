@@ -49,9 +49,7 @@
         <ion-icon name="close-outline" slot="icon-only" size="large" color="warning"></ion-icon>
       </ion-button>
 
-      <ion-img [src]="myImage" (ionImgDidLoad)="imageLoaded()">
-
-      </ion-img>
+      <ion-img [src]="myImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
       <ion-card-header>
         <ion-card-title *ngIf="myImage" color="warning">Image properties:</ion-card-title>
         <ion-card-subtitle>Resolution: {{imageWidth}} * {{imageHeight}}</ion-card-subtitle>

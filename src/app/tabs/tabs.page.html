@@ -8,7 +8,7 @@
     </ion-tab-button>
 
 
-    <ion-tab-button tab="tab2" (click)="setIcon()">
+    <ion-tab-button tab="tab2" (click)="setIcon()" [disabled]="editButtonOnTabMenuStatus">
       <ion-icon [name]="filterIcon" color="warning"></ion-icon>
 
       <ion-label color="warning">Edit</ion-label>

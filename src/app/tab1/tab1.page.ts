@@ -5,8 +5,7 @@ import { LoadingController, ModalController } from '@ionic/angular';
 import { PopoverController } from '@ionic/angular';
 import { PopoverInfoComponent } from '../popovers/popover-info/popover-info.component';
 import { IonTabs } from '@ionic/angular';
-import { Router } from '@angular/router';
-import { DomSanitizer } from '@angular/platform-browser';
+import { TabsPage } from '../tabs/tabs.page';
 
 @Component({
   selector: 'app-tab1',
@@ -26,7 +25,8 @@ export class Tab1Page {
   constructor(
     private loadingController: LoadingController,
     public popoverController: PopoverController,
-    private tabs: IonTabs
+    private tabs: IonTabs,
+    private tabsPage: TabsPage
   ) {}
 
   // select image from device
@@ -189,11 +189,13 @@ export class Tab1Page {
   deleteLoadedImage() {
     this.myImage = null;
     localStorage.clear();
+    this.tabsPage.editButtonOnTabMenuStatus = true;
   }
 
   acceptImage() {
     if (this.myImage) {
       this.tabs.select('tab2');
+      this.tabsPage.editButtonOnTabMenuStatus = false;
     }
   }
 }

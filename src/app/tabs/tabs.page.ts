@@ -7,9 +7,12 @@ import { Router } from '@angular/router';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage implements OnInit {
+  editButtonOnTabMenuStatus = true;
+
   imagesIcon: string;
   filterIcon: string;
   settingsIcon: string;
+  myImage = null;
 
   constructor(private router: Router) {}
 
@@ -31,10 +34,16 @@ export class TabsPage implements OnInit {
     return this.imagesIcon, this.filterIcon, this.settingsIcon;
   }
 
+  async getImage() {
+    this.myImage = localStorage.getItem('image');
+    return this.myImage;
+  }
+
   // call function setIcon() when route changes
   ngOnInit() {
     this.router.events.subscribe(() => {
       this.setIcon();
+      this.getImage();
     });
   }
 }
