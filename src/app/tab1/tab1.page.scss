@@ -1,16 +1,30 @@
 ion-button[shape="circle"] {
   --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
   width: 56px;
   height: 56px;
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
 }
 
+ion-button[shape="circle-small"] {
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+  --border-radius: 50%;
+  --padding-start: 0;
+  --padding-end: 0;
+  background-color: rgb(28, 28, 28);
+  border-radius: 50%;
+}
+
 .button-add {
-  padding: 20px;
+  padding: 15px;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .gray-text {
