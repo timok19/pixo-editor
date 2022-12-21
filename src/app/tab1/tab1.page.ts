@@ -14,6 +14,7 @@ import { TabsPage } from '../tabs/tabs.page';
 })
 export class Tab1Page {
   myImage = null;
+  displayImage = null;
   imageTitle: string;
   imageDateCreated: string;
   imageSize: string;
@@ -60,30 +61,11 @@ export class Tab1Page {
     const img = new Image();
     img.src = this.myImage;
 
-    img.onload = () => {
-      this.saveToLocalStorage();
+    img.onload = async () => {
       this.imageWidth = `${img.width} px`;
       this.imageHeight = `${img.height} px`;
 
-      // check image ratio is lower than 1:1 then cut the image to 1:1
-      if (img.width < img.height) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = img.width;
-        canvas.height = img.width;
-        ctx.drawImage(
-          img,
-          0,
-          0,
-          img.width,
-          img.width,
-          0,
-          0,
-          img.width,
-          img.width
-        );
-        this.myImage = canvas.toDataURL();
-      }
+      this.setFrameAspectRatio(img, 16, 9);
 
       const size = image.base64String.length * 0.75;
       this.imageSize = `${(size / 1024).toFixed(2)} KB`;
@@ -97,6 +79,7 @@ export class Tab1Page {
           type: 'image/jpeg',
         }
       );
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = () => {
@@ -109,7 +92,40 @@ export class Tab1Page {
           })
           .replace(/\//g, '-');
       };
+      await this.saveToLocalStorage();
     };
+  }
+
+  setFrameAspectRatio(img: HTMLImageElement, width: number, height: number) {
+    if (img.width > 300 && img.height > 300) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = img.width;
+      canvas.height = img.width * (height / width);
+
+      // calculate the source x and y coordinates to cut the image
+      const sx = 0;
+      const sy = (img.height - canvas.height) / 2;
+
+      ctx.drawImage(
+        img,
+        sx,
+        sy,
+        img.width,
+        canvas.height,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      if (img.width >= 3000 && img.height >= 3000) {
+        this.displayImage = this.myImage = canvas.toDataURL('image/jpeg', 0.7);
+      } else {
+        this.displayImage = canvas.toDataURL();
+      }
+    }
   }
 
   createFileName(image: Photo): string {
@@ -130,7 +146,7 @@ export class Tab1Page {
   }
 
   // create a function to save loaded image into local storage
-  saveToLocalStorage() {
+  async saveToLocalStorage() {
     const data = this.myImage;
     const blob = this.dataURItoBlob(data);
     const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
@@ -138,6 +154,7 @@ export class Tab1Page {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       const base64data = reader.result;
+      localStorage.clear();
       this.saveFile(base64data);
     };
   }
