@@ -34,7 +34,7 @@ export class Tab1Page {
   async selectImage() {
     const image = await Camera.getPhoto({
       quality: 100,
-      allowEditing: true,
+      allowEditing: false,
       resultType: CameraResultType.Base64,
     });
 
@@ -49,10 +49,16 @@ export class Tab1Page {
     this.myImage = `data:image/jpeg;base64,${image.base64String}`;
 
     // do not show loading event if user is trying to upload the same file
-    if (this.myImage !== null) {
-      loading.dismiss();
-    }
+    const imageElement = new Image();
+    imageElement.src = this.myImage;
 
+    // wait for the image to load before dismissing the loading spinner
+    imageElement.onload = () => {
+      // do not show loading event if user is trying to upload the same file
+      if (this.myImage !== null) {
+        loading.dismiss();
+      }
+    };
     this.getImageInfo(image);
   }
 
@@ -97,34 +103,32 @@ export class Tab1Page {
   }
 
   setFrameAspectRatio(img: HTMLImageElement, width: number, height: number) {
-    if (img.width > 300 && img.height > 300) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
 
-      canvas.width = img.width;
-      canvas.height = img.width * (height / width);
+    canvas.width = img.width;
+    canvas.height = img.width * (height / width);
 
-      // calculate the source x and y coordinates to cut the image
-      const sx = 0;
-      const sy = (img.height - canvas.height) / 2;
+    // calculate the source x and y coordinates to cut the image
+    const sx = 0;
+    const sy = (img.height - canvas.height) / 2;
 
-      ctx.drawImage(
-        img,
-        sx,
-        sy,
-        img.width,
-        canvas.height,
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
+    ctx.drawImage(
+      img,
+      sx,
+      sy,
+      img.width,
+      canvas.height,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
 
-      if (img.width >= 3000 && img.height >= 3000) {
-        this.displayImage = this.myImage = canvas.toDataURL('image/jpeg', 0.7);
-      } else {
-        this.displayImage = canvas.toDataURL();
-      }
+    if (img.width >= 3000 && img.height >= 3000) {
+      this.displayImage = this.myImage = canvas.toDataURL('image/jpeg', 0.7);
+    } else {
+      this.displayImage = canvas.toDataURL();
     }
   }
 

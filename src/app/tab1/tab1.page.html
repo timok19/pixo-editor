@@ -28,9 +28,9 @@
   <!--set text to the center of the -->
   <div *ngIf="!myImage" class="ion-text-center"
     style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); margin: 0;">
-    <ion-text class="gray-text">
+    <ion-note class="gray-text">
       <h3>Upload Your Image</h3>
-    </ion-text>
+    </ion-note>
   </div>
 
   <div class="button-add">
@@ -41,7 +41,7 @@
   </div>
 
   <!--add method imageLoaded() to stop loading animation -->
-  <div style="height: 100%; display: flex; align-items: center; justify-content: center;" class="container">
+  <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
     <ion-card *ngIf="myImage">
 
       <ion-button (click)="deleteLoadedImage()" shape="circle-small" fill="outline" color="warning"
@@ -51,7 +51,7 @@
 
       <ion-img [src]="displayImage" (ionImgDidLoad)="imageLoaded()"></ion-img>
       <ion-card-header>
-        <ion-card-title *ngIf="myImage" color="warning">Image properties:</ion-card-title>
+        <ion-card-title color="warning">Image properties:</ion-card-title>
         <ion-card-subtitle>Resolution: {{imageWidth}} * {{imageHeight}}</ion-card-subtitle>
         <ion-card-subtitle>File name: {{imageTitle}}</ion-card-subtitle>
         <ion-card-subtitle>Date of creation: {{imageDateCreated}}</ion-card-subtitle>

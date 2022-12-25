@@ -9,5 +9,75 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-img [src]="myImage" *ngIf="myImage"></ion-img>
+  <div class="img-container">
+    <ion-img #imageEdit [src]="myImage" *ngIf="myImage" style="height: 100%; width: 100%;"></ion-img>
+  </div>
+
+  <ion-slides #mySlides [pager]="false" [options]="slidesOptions"
+    style="display: flex; justify-content: space-between;">
+    <ion-slide class="ion-slide-style">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="setFilter('Normal')">Normal</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide class="ion-slide-style">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="setFilter('Free')">Free</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide class="ion-slide-style">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="setFilter('Charm')">Charm</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide class="ion-slide-style">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button (click)="setFilter('Black & White')">Black & White</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+  </ion-slides>
+
+  <div class="container" color="dark" #blackContainer>
+    <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+
+    <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+
+    <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+
+    <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+
+    <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
+      <ion-label slot="start">0</ion-label>
+      <ion-label slot="end">100</ion-label>
+    </ion-range>
+  </div>
+
 </ion-content>
