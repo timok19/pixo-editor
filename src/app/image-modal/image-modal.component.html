@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-col>
+      <ion-title color="warning">{{imageInfoService.imageTitle}}</ion-title>
+    </ion-col>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="arrow-back" slot="icon-only" color="warning"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="swiper-container">
+    <swiper [direction]="'vertical'">
+      <ng-template swiperSlide>
+        <ion-img [src]="myImage" style="height: 100%; width: 100%;"></ion-img>
+      </ng-template>
+      <ng-template swiperSlide>
+        <ion-img [src]="myImage" style="height: 100%; width: 100%;"></ion-img>
+      </ng-template>
+    </swiper>
+  </div>
+</ion-content>

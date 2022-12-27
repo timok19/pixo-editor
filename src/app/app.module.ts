@@ -6,17 +6,22 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SwiperModule } from 'swiper/angular';
 
 import { PopoverInfoComponent } from './popovers/popover-info/popover-info.component';
-import { HTTP } from '@ionic-native/http/ngx';
+import { ImageModalComponent } from './image-modal/image-modal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, PopoverInfoComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    HTTP,
+  declarations: [AppComponent, PopoverInfoComponent, ImageModalComponent],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    HttpClientModule,
+    SwiperModule,
   ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

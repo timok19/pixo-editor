@@ -1,41 +1,25 @@
-ion-slides {
+// ion-button {
+//   --color: var(--ion-color-warning);
+//   --border-radius: 5px; /* remove button border radius */
+//   --background: transparent; /* remove button background color */
+//   --min-height: 0; /* remove button min-height */
+//   font-size: 14px; /* set button text font size */
+//   margin: 0; /* remove button margin */
+//   height: 50px; /* set button height to 50 pixels */
+// }
+
+.black-container {
+  background-color: var(--ion-background-color);
   position: absolute;
-  bottom: 250px;
+  bottom: calc(var(--ion-safe-area-bottom) + 10vh);
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.8); /* add a semi-transparent black background */
-  white-space: nowrap;
-  width: 100%; /* set slides width to 100% of parent element */
-  display: flex;
-}
-
-ion-button {
-  --color: var(--ion-color-warning);
-  --border-radius: 5px; /* remove button border radius */
-  --background: transparent; /* remove button background color */
-  --min-height: 0; /* remove button min-height */
-  font-size: 14px; /* set button text font size */
-  margin: 0; /* remove button margin */
-  height: 50px; /* set button height to 50 pixels */
-}
-
-ion-slide {
-  /* other styles go here */
-  flex: 1; /* set slide width to 1/4 of parent element */
-  text-align: center; /* center slide content */
-}
-
-.container {
-  background-color: black; /* add a dark background color */
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  overflow: scroll; /* add scrollbar to container */
+  top: calc(var(--ion-safe-area-bottom) + 61vh);
+  overflow: scroll;
 }
 
 .img-container {
-  height: 50%;
+  height: calc(var(--ion-safe-area-bottom) + 40vh);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -44,16 +28,6 @@ ion-slide {
   border-width: 2px;
   border-style: dashed;
   border-color: rgb(191, 191, 0);
-  margin-top: 3vh;
-}
-
-.ion-slide-style {
-  display: flex;
-  height: 50px;
-}
-
-@media (min-height: 800px) {
-  .img-container {
-    margin-top: 8vh; /* new value for margin-top */
-  }
+  margin-top: 5vh;
+  position: relative;
 }

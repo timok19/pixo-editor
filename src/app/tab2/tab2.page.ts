@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonSlides } from '@ionic/angular';
-import { HTTP } from '@ionic-native/http/ngx';
+import { LocalStorageService } from '../tab1/local-storage.service';
+import { ModalController } from '@ionic/angular';
+import { ImageModalComponent } from '../image-modal/image-modal.component';
 
 @Component({
   selector: 'app-tab2',
@@ -10,20 +11,15 @@ import { HTTP } from '@ionic-native/http/ngx';
 })
 export class Tab2Page implements OnInit {
   @ViewChild('blackContainer') blackContainer: ElementRef<HTMLDivElement>;
-  @ViewChild('slides') slides: IonSlides;
-  @ViewChild('imageEdit') imageEditElement: ElementRef;
-  @ViewChild('imageEditCard') imageEditCardElement: ElementRef;
-  @ViewChild('mySlides') mySlides: ElementRef;
-
-  slidesOptions = {
-    freeMode: true,
-    loop: false,
-    slidesPerView: 3,
-  };
 
   myImage = null;
+  height: string;
 
-  constructor(private router: Router, private http: HTTP) {}
+  constructor(
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private modalController: ModalController
+  ) {}
 
   changeHeightOfSettingsBox() {
     const childElements = this.blackContainer.nativeElement.children;
@@ -31,12 +27,25 @@ export class Tab2Page implements OnInit {
     this.blackContainer.nativeElement.style.height = `${height}px`;
   }
 
-  getImage() {
-    this.myImage = localStorage.getItem('image');
+  async getImage() {
+    if (localStorage.getItem('image')) {
+      this.myImage = localStorage.getItem('image');
+    } else {
+      this.myImage = await this.localStorageService.getLargeImage();
+    }
   }
 
-  setFilter(filter: string) {}
-  // TODO: Add first api request to add image into Pixoeditor API
+  async openImageModal(image: string) {
+    const modal = await this.modalController.create({
+      component: ImageModalComponent, // Reference the modal component
+      componentProps: {
+        myImage: image,
+      },
+    });
+    return await modal.present();
+  }
+
+  async setFilter() {}
 
   ngOnInit() {
     this.router.events.subscribe(() => {

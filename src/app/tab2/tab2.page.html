@@ -9,51 +9,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <div class="img-container">
-    <ion-img #imageEdit [src]="myImage" *ngIf="myImage" style="height: 100%; width: 100%;"></ion-img>
+    <ion-img #imageEdit [src]="myImage" *ngIf="myImage" style="height: 100%; width: 100%;"
+      (click)="openImageModal(myImage)"></ion-img>
   </div>
 
-  <ion-slides #mySlides [pager]="false" [options]="slidesOptions"
-    style="display: flex; justify-content: space-between;">
-    <ion-slide class="ion-slide-style">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="setFilter('Normal')">Normal</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-    <ion-slide class="ion-slide-style">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="setFilter('Free')">Free</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-    <ion-slide class="ion-slide-style">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="setFilter('Charm')">Charm</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-    <ion-slide class="ion-slide-style">
-      <ion-grid>
-        <ion-row>
-          <ion-col>
-            <ion-button (click)="setFilter('Black & White')">Black & White</ion-button>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-slide>
-  </ion-slides>
+  <ion-segment [scrollable]="true" value="invert" color="warning" style="position: relative;">
+    <ion-segment-button value="invert" (click)="setFilter()">
+      Invert
+    </ion-segment-button>
+    <ion-segment-button value="free" (click)="setFilter()">
+      Free
+    </ion-segment-button>
+    <ion-segment-button value="charm" (click)="setFilter()">
+      Charm
+    </ion-segment-button>
+    <ion-segment-button value="blackAndWhite" (click)="setFilter()">
+      Black & White
+    </ion-segment-button>
+  </ion-segment>
 
-  <div class="container" color="dark" #blackContainer>
+  <div color="dark" #blackContainer class="black-container">
+
     <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
       <ion-label slot="start">0</ion-label>
       <ion-label slot="end">100</ion-label>

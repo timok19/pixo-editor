@@ -6,6 +6,7 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverInfoComponent } from '../popovers/popover-info/popover-info.component';
 import { IonTabs } from '@ionic/angular';
 import { TabsPage } from '../tabs/tabs.page';
+import { ImageInfoService } from './image-info.service';
 
 @Component({
   selector: 'app-tab1',
@@ -14,25 +15,20 @@ import { TabsPage } from '../tabs/tabs.page';
 })
 export class Tab1Page {
   myImage = null;
-  displayImage = null;
-  imageTitle: string;
-  imageDateCreated: string;
-  imageSize: string;
-  imageType: string;
-  imageHeight: string;
-  imageWidth: string;
+
   isMobile = Capacitor.getPlatform() !== 'web';
 
   constructor(
     private loadingController: LoadingController,
     public popoverController: PopoverController,
     private tabs: IonTabs,
-    private tabsPage: TabsPage
+    private tabsPage: TabsPage,
+    public imageInfoService: ImageInfoService
   ) {}
 
   // select image from device
   async selectImage() {
-    const image = await Camera.getPhoto({
+    const imageFromDevice = await Camera.getPhoto({
       quality: 100,
       allowEditing: false,
       resultType: CameraResultType.Base64,
@@ -46,7 +42,7 @@ export class Tab1Page {
 
     // if user is trying to upload the same file then do not upload it again
 
-    this.myImage = `data:image/jpeg;base64,${image.base64String}`;
+    this.myImage = `data:image/jpeg;base64,${imageFromDevice.base64String}`;
 
     // do not show loading event if user is trying to upload the same file
     const imageElement = new Image();
@@ -59,133 +55,7 @@ export class Tab1Page {
         loading.dismiss();
       }
     };
-    this.getImageInfo(image);
-  }
-
-  async getImageInfo(image: Photo) {
-    // get image info
-    const img = new Image();
-    img.src = this.myImage;
-
-    img.onload = async () => {
-      this.imageWidth = `${img.width} px`;
-      this.imageHeight = `${img.height} px`;
-
-      this.setFrameAspectRatio(img, 16, 9);
-
-      const size = image.base64String.length * 0.75;
-      this.imageSize = `${(size / 1024).toFixed(2)} KB`;
-      this.imageType = image.format;
-
-      // get image date of creation from file system (not from camera)
-      const file = new File(
-        [this.dataURItoBlob(this.myImage)],
-        `${this.createFileName(image)}`,
-        {
-          type: 'image/jpeg',
-        }
-      );
-
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        this.imageTitle = file.name;
-        this.imageDateCreated = new Date(file.lastModified)
-          .toLocaleDateString('en-UK', {
-            year: 'numeric',
-            month: 'numeric',
-            day: 'numeric',
-          })
-          .replace(/\//g, '-');
-      };
-      await this.saveToLocalStorage();
-    };
-  }
-
-  setFrameAspectRatio(img: HTMLImageElement, width: number, height: number) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    canvas.width = img.width;
-    canvas.height = img.width * (height / width);
-
-    // calculate the source x and y coordinates to cut the image
-    const sx = 0;
-    const sy = (img.height - canvas.height) / 2;
-
-    ctx.drawImage(
-      img,
-      sx,
-      sy,
-      img.width,
-      canvas.height,
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-
-    if (img.width >= 3000 && img.height >= 3000) {
-      this.displayImage = this.myImage = canvas.toDataURL('image/jpeg', 0.7);
-    } else {
-      this.displayImage = canvas.toDataURL();
-    }
-  }
-
-  createFileName(image: Photo): string {
-    const currentDate = new Date();
-
-    // format the date as a string
-    const formattedDate = currentDate.toLocaleDateString('en-UK', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
-    });
-
-    // do not use slashes in the file name
-    const formattedDateNoSlash = formattedDate.replace(/\//g, '-');
-    const fileName = `pixo-${formattedDateNoSlash}.${image.format}`;
-
-    return fileName;
-  }
-
-  // create a function to save loaded image into local storage
-  async saveToLocalStorage() {
-    const data = this.myImage;
-    const blob = this.dataURItoBlob(data);
-    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      const base64data = reader.result;
-      localStorage.clear();
-      this.saveFile(base64data);
-    };
-  }
-
-  // convert dataURI to blob
-  dataURItoBlob(dataURI: string) {
-    const byteString = atob(dataURI.split(',')[1]);
-    const mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([ab], { type: mimeString });
-    return blob;
-  }
-
-  // save file to local storage
-  saveFile(base64data: any) {
-    const blob = this.dataURItoBlob(base64data);
-    const file = new File([blob], 'image.jpg', { type: 'image/jpeg' });
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      base64data = reader.result;
-      localStorage.setItem('image', base64data.toString());
-    };
+    this.imageInfoService.getImageInfo(imageFromDevice, this.myImage);
   }
 
   imageLoaded() {
