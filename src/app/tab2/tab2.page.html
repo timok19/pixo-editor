@@ -12,25 +12,26 @@
 
   <div class="img-container">
     <ion-img #imageEdit [src]="myImage" *ngIf="myImage" style="height: 100%; width: 100%;"
-      (click)="openImageModal(myImage)"></ion-img>
+      (click)="imageModalComponent.openImageModal(myImage)"></ion-img>
   </div>
 
-  <ion-segment [scrollable]="true" value="invert" color="warning" style="position: relative;">
-    <ion-segment-button value="invert" (click)="setFilter()">
+  <ion-segment [scrollable]="true" value="invert" color="warning" style="position: relative;"
+    (ionChange)="setFilter(invert)">
+    <ion-segment-button value="invert">
       Invert
     </ion-segment-button>
-    <ion-segment-button value="free" (click)="setFilter()">
+    <ion-segment-button value=" free">
       Free
     </ion-segment-button>
-    <ion-segment-button value="charm" (click)="setFilter()">
+    <ion-segment-button value=" charm">
       Charm
     </ion-segment-button>
-    <ion-segment-button value="blackAndWhite" (click)="setFilter()">
+    <ion-segment-button value="blackAndWhite">
       Black & White
     </ion-segment-button>
   </ion-segment>
 
-  <div color="dark" #blackContainer class="black-container">
+  <div color="dark" #blackContainer class="black-container" *ngIf="invert">
 
     <ion-range min="0" max="100" step="1" value="50" snaps="true" pin="true" color="warning">
       <ion-label slot="start">0</ion-label>

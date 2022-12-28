@@ -1,7 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { LocalStorageService } from '../tab1/local-storage.service';
-import { ModalController } from '@ionic/angular';
 import { ImageModalComponent } from '../image-modal/image-modal.component';
 
 @Component({
@@ -13,12 +12,16 @@ export class Tab2Page implements OnInit {
   @ViewChild('blackContainer') blackContainer: ElementRef<HTMLDivElement>;
 
   myImage = null;
-  height: string;
+
+  invert = true;
+  free = true;
+  charm = true;
+  blackAndWhite = true;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
-    private modalController: ModalController
+    public imageModalComponent: ImageModalComponent
   ) {}
 
   changeHeightOfSettingsBox() {
@@ -35,17 +38,11 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  async openImageModal(image: string) {
-    const modal = await this.modalController.create({
-      component: ImageModalComponent, // Reference the modal component
-      componentProps: {
-        myImage: image,
-      },
-    });
-    return await modal.present();
+  setFilter(filterName: boolean) {
+    if (filterName === this.invert) {
+      this.invert = !this.invert;
+    }
   }
-
-  async setFilter() {}
 
   ngOnInit() {
     this.router.events.subscribe(() => {

@@ -1,40 +1,41 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { ImageInfoService } from '../tab1/image-info.service';
-import SwiperCore, {
-  Keyboard,
-  Pagination,
-  Scrollbar,
-  SwiperOptions,
-  Zoom,
-} from 'swiper';
-
-SwiperCore.use([Keyboard, Pagination, Scrollbar, Zoom]);
+import { SwiperOptions } from 'swiper';
+import { Injectable } from '@angular/core';
 
 @Component({
   selector: 'app-image-modal',
   templateUrl: './image-modal.component.html',
   styleUrls: ['./image-modal.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class ImageModalComponent implements OnInit {
+@Injectable({ providedIn: 'root' })
+export class ImageModalComponent {
   @Input() myImage: string;
 
+  modal: HTMLIonModalElement;
+
+  swiperConfig: SwiperOptions = {
+    initialSlide: 1,
+    direction: 'vertical',
+  };
+
   constructor(
-    private modalController: ModalController,
+    public modalController: ModalController,
     public imageInfoService: ImageInfoService
   ) {}
 
-  closeModal() {
-    this.modalController.dismiss();
+  async openImageModal(image: string) {
+    this.modal = await this.modalController.create({
+      component: ImageModalComponent, // Reference the modal component
+      componentProps: {
+        myImage: image,
+      },
+    });
+    return await this.modal.present();
   }
 
-  ngOnInit() {}
+  async closeModal() {
+    await this.modalController.dismiss();
+  }
 }

@@ -49,10 +49,10 @@ export class Tab1Page {
     imageElement.src = this.myImage;
 
     // wait for the image to load before dismissing the loading spinner
-    imageElement.onload = () => {
+    imageElement.onload = async () => {
       // do not show loading event if user is trying to upload the same file
-      if (this.myImage !== null) {
-        loading.dismiss();
+      while (!imageElement.complete) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
       }
     };
     this.imageInfoService.getImageInfo(imageFromDevice, this.myImage);

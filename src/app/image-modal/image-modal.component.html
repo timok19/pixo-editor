@@ -13,13 +13,12 @@
 
 <ion-content>
   <div class="swiper-container">
-    <swiper [direction]="'vertical'">
+    <swiper [config]="swiperConfig" (slideChange)="this.closeModal()">
+      <ng-template swiperSlide></ng-template>
       <ng-template swiperSlide>
         <ion-img [src]="myImage" style="height: 100%; width: 100%;"></ion-img>
       </ng-template>
-      <ng-template swiperSlide>
-        <ion-img [src]="myImage" style="height: 100%; width: 100%;"></ion-img>
-      </ng-template>
+      <ng-template swiperSlide></ng-template>
     </swiper>
   </div>
 </ion-content>
